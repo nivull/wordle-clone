@@ -1,6 +1,8 @@
 //the word to guess
 const currentWord = "sahur";
 
+const keyboard = document.getElementsByClassName("key-button");
+
 //html row elements containing the guessing boxes
 const rowElemnts = [document.getElementById("row1"),
     document.getElementById("row2"),
@@ -39,6 +41,9 @@ const greyGuessColour = "#0a0a0a";
 
 
 setDuplicates();
+
+addKeyboardEventListeners();
+
 
 document.addEventListener('keydown', (event) => {
     
@@ -228,5 +233,25 @@ function emojiResults() {
     }
 
     return str;
+
+}
+
+function addKeyboardEventListeners() {
+
+    for(let x of keyboard) {
+        console.log(x)
+        x.addEventListener('click', (button) => {
+            if(button.target.textContent == "Delete" ) {
+                addLetter("backspace");
+            } else{
+                addLetter(button.target.textContent.toLowerCase());
+                
+            }
+        })
+
+
+    }
+
+
 
 }
