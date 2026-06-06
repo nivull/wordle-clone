@@ -1,5 +1,5 @@
 //the word to guess
-const currentWord = "sahur";
+const currentWord = "sussy";
 
 const keyboard = document.getElementsByClassName("key-button");
 
@@ -10,7 +10,9 @@ const rowElemnts = [document.getElementById("row1"),
     document.getElementById("row4"),
     document.getElementById("row5"),
     document.getElementById("row6")
-    ]
+    ];
+const wrapperElement = document.getElementById("wrapper");
+
 let currentRow = 0;
 let currentItem = -1;
 const perRow = 4;
@@ -36,13 +38,11 @@ const greenGuessColour = "#35e61e";
 const yellowGuessColour = "#e6dc1e";
 const greyGuessColour = "#0a0a0a";
 
-
-
-
-
+//initiate game
 setDuplicates();
-
 addKeyboardEventListeners();
+
+
 
 
 document.addEventListener('keydown', (event) => {
@@ -121,10 +121,10 @@ function submitGuess() {
     results.push(test);
 
     if(!test.includes(1) && !test.includes(0) && !test.includes('')){
-        gameEnd(1);
+        gameEnd(true);
         gameActive = 0;
     } else if(currentRow >= 5) {
-        gameEnd(0);
+        gameEnd(false);
         gameActive = 0;
     } else {
 
@@ -209,8 +209,39 @@ function revealLetters() {
 }
 
 function gameEnd(won) {
+        let endText;
+        let triesTxt;
+        if(results.length == 1) {
+            triesTxt = "try";
+        } else {
+            triesTxt = "tries"
+        }
+        const endPopup = document.createElement("div");
 
-        console.log(emojiResults());
+        if(won) {
+            endText = `Congratulations! You guessed the word in ${results.length} ${triesTxt}!`;
+        } else {
+            endText = `The correct word was ${currentWord.toUpperCase()}`;
+        }
+
+        endPopup.id = "end-popup";
+
+        endPopup.innerHTML = `
+        <div style="margin-top:3rem;"class="end-popup-text">${endText}</div>
+
+        <div class="end-popup-text">${emojiResults()}</div>
+
+        <button type="button" id="end-popup-exitbutton">Exit</button>
+        
+        `
+        wrapperElement.appendChild(endPopup);
+        console.log(endPopup);
+
+        const endPopupBtn = document.getElementById("end-popup-exitbutton");
+        endPopupBtn.addEventListener('click', (btn) => {
+            endPopup.remove();
+        });
+
 }
 
 function emojiResults() {
@@ -228,7 +259,7 @@ function emojiResults() {
                 str += "⬛";
             }
         }
-        str += "\n";
+        str += "<br>";
     }
 
     return str;

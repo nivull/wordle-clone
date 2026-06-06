@@ -5,6 +5,8 @@
     --primary-colour: rgb(255, 255, 255);
     --key-colour: rgb(75, 75, 75);
     --border-colour: rgb(13, 9, 20);
+    --exit-button-colour: rgb(6, 82, 25);
+    --exit-button-hover: rgb(25, 117, 48);
 
 }
 
@@ -18,11 +20,53 @@ body {
 }
 
 #wrapper {
-
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
 
+}
+
+#end-popup {
+    font:inherit;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    font-size: 2em;
+    background-color: var(--border-colour);
+    padding-bottom: 2rem;
+    width: 23%;
+    margin-top: 3rem;
+    gap: 2rem;
+    border: 0.2rem solid var(--primary-colour);
+    border-radius: 1rem;
+    
+}
+
+#end-popup-exitbutton {
+    cursor: pointer;
+    font: inherit;
+    color: var(--primary-colour);
+    font-weight: 500;
+    font-size: 1.2em;
+    background-color: var(--exit-button-colour);
+    border: 0.3rem solid var(--primary-colour);
+    border-radius: 1.2rem;
+    padding: 0.5rem;
+    width: 70%;
+}
+
+#end-popup-exitbutton:hover {
+    transition: ease 40ms;
+    background-color: var(--exit-button-hover);
+}
+
+.end-popup-text {
+    max-width: 90%;
+    display: flex;
+    justify-content: center;
 }
 
 #game {
