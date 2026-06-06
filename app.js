@@ -117,7 +117,6 @@ function submitGuess() {
             test[i] = 0;
         }
     }
-    //console.log(test);
     revealLetters();
     results.push(test);
 
@@ -128,10 +127,10 @@ function submitGuess() {
         gameEnd(0);
         gameActive = 0;
     } else {
-        //console.log("not won")
+
     }
 
-
+    fillInKeyboard();
 
 
     test = ['', '', '', '', ''];
@@ -239,7 +238,6 @@ function emojiResults() {
 function addKeyboardEventListeners() {
 
     for(let x of keyboard) {
-        console.log(x)
         x.addEventListener('click', (button) => {
             if(button.target.textContent == "Delete" ) {
                 addLetter("backspace");
@@ -247,11 +245,32 @@ function addKeyboardEventListeners() {
                 addLetter(button.target.textContent.toLowerCase());
                 
             }
+            //stop the selection so it dont double click
+            button.target.blur();
         })
 
 
     }
+}
 
+function fillInKeyboard() {
 
+    for(let i = 0; i <= perRow; i++) {
 
+        const elem = document.getElementById(`letter-${matrix[currentRow][i]}`);
+        
+        if(elem) {
+            if(test[i] == 2) {
+                elem.style.borderColor = greenGuessColour;
+                elem.style.backgroundColor = greenGuessColour;
+
+            } else if(test[i] == 1) {
+                elem.style.borderColor = yellowGuessColour;
+                elem.style.backgroundColor = yellowGuessColour;
+            } else {
+                elem.style.borderColor = greyGuessColour;
+                elem.style.backgroundColor = greyGuessColour;        
+            }
+        }
+    }
 }
