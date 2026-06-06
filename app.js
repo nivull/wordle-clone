@@ -11,6 +11,7 @@ const rowElemnts = [document.getElementById("row1"),
     ]
 let currentRow = 0;
 let currentItem = 0;
+let lastBoxTyped = 0;
 const perRow = 4;
 
 //how many duplicate letters there are, stays constant
@@ -42,6 +43,7 @@ document.addEventListener('keydown', (event) => {
 })
 
 function addLetter(key) {
+    
     if(key == "enter" && matrix[currentRow][perRow] != "") {   
         //if submitting line
         currentItem = 0;
@@ -50,11 +52,17 @@ function addLetter(key) {
 
     } else if (key == "backspace") {
         //if backspace
+        if(lastBoxTyped >= 1) {
+            deleteLetter();
+        }    
         matrix[currentRow][currentItem] = "";
-                if(currentItem != 0) {
+        if(currentItem != 0) {
             currentItem--;
         }
-
+        if(lastBoxTyped > 0) {
+            lastBoxTyped -=1
+        }
+        
     } else if ( allowedCharacters.includes(key) && currentItem <= perRow) {
         //check if allowed character
         matrix[currentRow][currentItem] = key;
@@ -63,7 +71,12 @@ function addLetter(key) {
 
         if(currentItem < perRow) {
             currentItem++;
+            
         }     
+        if(lastBoxTyped <= perRow ) {
+            lastBoxTyped++;
+        }
+        
     }
 }
 let test = ['', '', '', '', ''];
@@ -134,7 +147,7 @@ function setDuplicates() {
     //set to key, value pairs ([[p, 1], [z,2]])
     duplicateLetters = Object.entries(duplicateLetters)
     //gets rid of non duplicates to add to object array, letter = key to remove, count = number attatched
-    .filter( ([letter, count]) => count > 1)
+    .filter( ([letter, count]) => count > 0)
     //transforms  key value pair array to object
     .map( ([letter, count]) => ({letter: letter, count: count}));
 
@@ -144,6 +157,14 @@ function drawLetter(char) {
 
     const letterDrawn = document.getElementById(`box${currentRow+1}-${currentItem +1}`);
     letterDrawn.textContent = char.toUpperCase();
+
+}
+
+function deleteLetter() {
+
+    const boxToDelete = document.getElementById(`box${currentRow+1}-${lastBoxTyped}`);
+    boxToDelete.textContent = "";
+
 }
 
 
