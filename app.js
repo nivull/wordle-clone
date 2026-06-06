@@ -1,5 +1,5 @@
 //the word to guess
-const currentWord = "civic";
+const currentWord = "bbbaa";
 
 //html row elements containing the guessing boxes
 const row1el = document.getElementById("row1");
@@ -22,7 +22,8 @@ let matrix = [  ["", "", "", "", ""],
                 ["", "", "", "", ""],
                 ["", "", "", "", ""],
                 ["", "", "", "", ""],
-                ["", "", "", "", ""] ];
+                ["", "", "", "", ""],
+                ["", "", "", "", ""]];
 
 const allowedCharacters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
  
@@ -57,7 +58,7 @@ function addLetter(key) {
 let test = ['', '', '', '', ''];
 function submitGuess() {
     //reset duplicate clock
-    duplicateClock = duplicateLetters;
+    duplicateClock = structuredClone(duplicateLetters);
     
     // 0 = black, 1 = yellow, 2 = green
     for(let i = 0; i <= perRow; i++ ) {
@@ -66,29 +67,36 @@ function submitGuess() {
         if(matrix[currentRow][i] == currentWord[i]) {
             test[i] = 2;
             const subtractDuplicate = duplicateClock.find((e) => e.letter == currentWord[i]);
-            subtractDuplicate.count -= 1;
+            if(subtractDuplicate){
+                if(subtractDuplicate.count > 0) {
+                    subtractDuplicate.count -= 1;
+                }
+            }
+        }
+        
+    }
+    console.log(test);
+    //test yellow
 
-        //test yellow
-        } else if (currentWord.includes(matrix[currentRow][i]) && checkDuplicates(matrix[currentRow][i])){
+    for(let i = 0; i <= perRow; i++) {
+
+        if (currentWord.includes(matrix[currentRow][i]) && checkDuplicates(matrix[currentRow][i]) && test[i] != 2){
             test[i] = 1;
         //black
-        } else {
+        } else if (test[i] != 2) {
             test[i] = 0;
         }
     }
-    
-    ///console.log(duplicateClock);
     console.log(test);
-
+    test = ['', '', '', '', ''];
 }
 
 function checkDuplicates(char) {
-//is it a letter with a duplicate
+//find item with duplicate letter testing for
     const toTest = duplicateClock.find((e) => e.letter == char);    
-    console.log(toTest);
     if(toTest) {
 //if duplicate still has another, meaning we can say it's yellow 
-        if(toTest.count > 1) {
+        if(toTest.count > 0) {
             toTest.count -=1;
             return true;
 //if it is listed as a duplicate but weve already marked, false 
@@ -104,7 +112,6 @@ function checkDuplicates(char) {
 }
 
 function setDuplicates() { 
-
     for(const letter of currentWord) {
 
         duplicateLetters[letter] = (duplicateLetters[letter] || 0) + 1;
