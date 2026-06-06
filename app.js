@@ -10,10 +10,9 @@ const rowElemnts = [document.getElementById("row1"),
     document.getElementById("row6")
     ]
 let currentRow = 0;
-let currentItem = 0;
-let lastBoxTyped = 0;
+let currentItem = -1;
 const perRow = 4;
-
+let gameActive = 1;
 //how many duplicate letters there are, stays constant
 let duplicateLetters = {};
 //variable that will change values while checking a row, resets afterwards
@@ -25,6 +24,9 @@ let matrix = [  ["", "", "", "", ""],
                 ["", "", "", "", ""],
                 ["", "", "", "", ""],
                 ["", "", "", "", ""]];
+
+let results = [];
+let test = ['', '', '', '', ''];
 
 const allowedCharacters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
@@ -39,47 +41,45 @@ const greyGuessColour = "#0a0a0a";
 setDuplicates();
 
 document.addEventListener('keydown', (event) => {
-    addLetter(event.key.toLowerCase());
-})
+    
+    if(gameActive == 1) {
+        addLetter(event.key.toLowerCase());
+    }
+});
 
 function addLetter(key) {
-    
     if(key == "enter" && matrix[currentRow][perRow] != "") {   
         //if submitting line
-        currentItem = 0;
+        currentItem = -1;
         submitGuess();
         currentRow++;
 
     } else if (key == "backspace") {
         //if backspace
-        if(lastBoxTyped >= 1) {
-            deleteLetter();
+        if(currentItem > -1) {
+            deleteLetter();  
         }    
-        matrix[currentRow][currentItem] = "";
-        if(currentItem != 0) {
+        
+        if(currentItem != -1) {
             currentItem--;
         }
-        if(lastBoxTyped > 0) {
-            lastBoxTyped -=1
-        }
+        matrix[currentRow][currentItem+1] = "";
         
-    } else if ( allowedCharacters.includes(key) && currentItem <= perRow) {
+    } else if ( allowedCharacters.includes(key) && currentItem < perRow) {
         //check if allowed character
-        matrix[currentRow][currentItem] = key;
+        matrix[currentRow][currentItem+1] = key;
 
-        drawLetter(key);
+        
 
         if(currentItem < perRow) {
             currentItem++;
             
-        }     
-        if(lastBoxTyped <= perRow ) {
-            lastBoxTyped++;
-        }
+        }    
+        drawLetter(key);
         
     }
 }
-let test = ['', '', '', '', ''];
+
 function submitGuess() {
     //reset duplicate clock
     duplicateClock = structuredClone(duplicateLetters);
@@ -99,7 +99,6 @@ function submitGuess() {
         }
         
     }
-    console.log(test);
     //test yellow
 
     for(let i = 0; i <= perRow; i++) {
@@ -113,8 +112,23 @@ function submitGuess() {
             test[i] = 0;
         }
     }
-    console.log(test);
+    //console.log(test);
     revealLetters();
+    results.push(test);
+
+    if(!test.includes(1) && !test.includes(0) && !test.includes('')){
+        gameEnd(1);
+        gameActive = 0;
+    } else if(currentRow >= 5) {
+        gameEnd(0);
+        gameActive = 0;
+    } else {
+        //console.log("not won")
+    }
+
+
+
+
     test = ['', '', '', '', ''];
 }
 
@@ -154,15 +168,13 @@ function setDuplicates() {
 }
 
 function drawLetter(char) {
-
-    const letterDrawn = document.getElementById(`box${currentRow+1}-${currentItem +1}`);
+    const letterDrawn = document.getElementById(`box${currentRow+1}-${currentItem+1}`);
     letterDrawn.textContent = char.toUpperCase();
 
 }
 
 function deleteLetter() {
-
-    const boxToDelete = document.getElementById(`box${currentRow+1}-${lastBoxTyped}`);
+    const boxToDelete = document.getElementById(`box${currentRow+1}-${currentItem+1}`);
     boxToDelete.textContent = "";
 
 }
@@ -192,4 +204,29 @@ function revealLetters() {
 
 }
 
+function gameEnd(won) {
 
+        console.log(emojiResults());
+}
+
+function emojiResults() {
+
+    let str = "";
+
+    for(let i = 0; i < results.length; i++) {
+
+        for(let x of results[i]) {
+            if(x == 2) {
+                str += "🟩";
+            } else if(x == 1) {
+                str+= "🟨";
+            } else {
+                str += "⬛";
+            }
+        }
+        str += "\n";
+    }
+
+    return str;
+
+}
