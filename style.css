@@ -37,7 +37,8 @@ body {
     font-size: 2em;
     background-color: var(--border-colour);
     padding-bottom: 2rem;
-    width: 23%;
+    max-width: 400px;
+    width: 90%;
     margin-top: 3rem;
     gap: 2rem;
     border: 0.2rem solid var(--primary-colour);
@@ -75,7 +76,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    max-width: 800px;
+    width: 90%;
     gap: 0.5rem;
 
 }
