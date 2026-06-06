@@ -1,5 +1,5 @@
 //the word to guess
-const currentWord = "bbbaa";
+const currentWord = "tutor";
 
 //html row elements containing the guessing boxes
 const row1el = document.getElementById("row1");
@@ -80,8 +80,10 @@ function submitGuess() {
 
     for(let i = 0; i <= perRow; i++) {
 
-        if (currentWord.includes(matrix[currentRow][i]) && checkDuplicates(matrix[currentRow][i]) && test[i] != 2){
-            test[i] = 1;
+        if (currentWord.includes(matrix[currentRow][i]) && test[i]  != 2){
+            if(checkDuplicates(matrix[currentRow][i]) ) {
+                test[i] = 1;
+            } 
         //black
         } else if (test[i] != 2) {
             test[i] = 0;
