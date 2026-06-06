@@ -18,6 +18,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
+    width: 100vw;
 }
 
 #wrapper {
