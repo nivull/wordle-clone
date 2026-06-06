@@ -95,7 +95,7 @@ body {
     justify-content: center;
     flex-direction: column;
     margin-top: 3rem;
-    gap: 0.5rem;
+    gap: 0.35rem;
     width: 100%;
     max-width: 700px;
     padding: 0 0.5rem;
@@ -115,7 +115,7 @@ body {
     flex: 1.5;
     max-width: 5rem;
 
-    height: 4rem;
+    height: 3.5rem;
     border: 0.3rem solid var(--key-colour);
     border-radius: 7px;
     background-color: var(--key-colour);
@@ -125,7 +125,7 @@ body {
 .key-row {
 
     display: flex;
-    gap: 0.45rem;
+    gap: 0.35rem;
     justify-content: center;
     flex-direction: row;
 
@@ -144,8 +144,8 @@ body {
 
     flex: 1;
     min-width: 0;
-    max-width: 3.5rem;
-    height: 4rem;
+    max-width: 2.8rem;
+    height: 3.5rem;
     border: 0.3rem solid var(--key-colour);
     border-radius: 7px;
     background-color: var(--key-colour);
