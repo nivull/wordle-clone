@@ -1,14 +1,14 @@
 //the word to guess
-const currentWord = "tutor";
+const currentWord = "sahur";
 
 //html row elements containing the guessing boxes
-const row1el = document.getElementById("row1");
-const row2el = document.getElementById("row2");
-const row3el = document.getElementById("row3");
-const row4el = document.getElementById("row4");
-const row5el = document.getElementById("row5");
-const row6el = document.getElementById("row6");
-
+const rowElemnts = [document.getElementById("row1"),
+    document.getElementById("row2"),
+    document.getElementById("row3"),
+    document.getElementById("row4"),
+    document.getElementById("row5"),
+    document.getElementById("row6")
+    ]
 let currentRow = 0;
 let currentItem = 0;
 const perRow = 4;
@@ -26,7 +26,15 @@ let matrix = [  ["", "", "", "", ""],
                 ["", "", "", "", ""]];
 
 const allowedCharacters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
- 
+
+const greenGuessColour = "#35e61e";
+const yellowGuessColour = "#e6dc1e";
+const greyGuessColour = "#0a0a0a";
+
+
+
+
+
 setDuplicates();
 
 document.addEventListener('keydown', (event) => {
@@ -50,6 +58,9 @@ function addLetter(key) {
     } else if ( allowedCharacters.includes(key) && currentItem <= perRow) {
         //check if allowed character
         matrix[currentRow][currentItem] = key;
+
+        drawLetter(key);
+
         if(currentItem < perRow) {
             currentItem++;
         }     
@@ -90,6 +101,7 @@ function submitGuess() {
         }
     }
     console.log(test);
+    revealLetters();
     test = ['', '', '', '', ''];
 }
 
@@ -127,3 +139,36 @@ function setDuplicates() {
     .map( ([letter, count]) => ({letter: letter, count: count}));
 
 }
+
+function drawLetter(char) {
+
+    const letterDrawn = document.getElementById(`box${currentRow+1}-${currentItem +1}`);
+    letterDrawn.textContent = char.toUpperCase();
+}
+
+
+
+function revealLetters() {
+
+    for(let i = 0; i <= perRow; i++) {
+
+        const boxDrawn = document.getElementById(`box${currentRow+1}-${i+1}`);
+        
+        if(test[i] == 2) {
+            boxDrawn.style.backgroundColor = greenGuessColour;
+            boxDrawn.style.borderColor = greenGuessColour;
+        } else if(test[i] == 1) {
+            boxDrawn.style.backgroundColor = yellowGuessColour;
+            boxDrawn.style.borderColor = yellowGuessColour;
+        } else {
+            boxDrawn.style.backgroundColor = greyGuessColour;
+            boxDrawn.style.borderColor = greyGuessColour;
+        }
+
+
+    }
+
+
+}
+
+
