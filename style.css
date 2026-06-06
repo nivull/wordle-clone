@@ -108,7 +108,7 @@ body {
     align-items: center;
     font: inherit;
     color: var(--primary-colour);
-    font-size: 1.8em;
+    font-size: 1.2em;
     font-weight: 700;
 
     min-width: 0;
@@ -139,7 +139,7 @@ body {
     align-items: center;
     font: inherit;
     color: var(--primary-colour);
-    font-size: 2em;
+    font-size: 1.3em;
     font-weight: 700;
 
     flex: 1;
